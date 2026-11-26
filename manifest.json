@@ -1,0 +1,15 @@
+{
+  "name": "StudyTask",
+  "short_name": "StudyTask",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#9D4EDD",
+  "icons": [
+    {
+      "src": "https://sandixsnd.github.io/studytask/icono.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
