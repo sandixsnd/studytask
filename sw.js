@@ -1,4 +1,4 @@
-const CACHE_NAME = 'studytask-v5'; 
+const CACHE_NAME = 'studytask-v6'; 
 const urlsToCache = ['./', './index.html'];
 
 self.addEventListener('install', event => {
