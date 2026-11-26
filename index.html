@@ -81,6 +81,10 @@
     .task-desc { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 6px; background: var(--bg-input); padding: 6px; border-radius: 6px; font-style: italic; white-space: pre-wrap; }
     .task-date { font-size: 0.75rem; color: var(--text-secondary); display: flex; align-items: center; gap: 5px; }
     
+    /* GALERÍA DE IMÁGENES EN LA TARJETA */
+    .task-images-container { display: flex; gap: 8px; overflow-x: auto; margin-top: 10px; padding-bottom: 5px; }
+    .task-image { height: 80px; min-width: 80px; max-width: 120px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-subtle); }
+
     .subtask-list { margin-top: 10px; padding-left: 10px; border-left: 2px solid var(--border-subtle); }
     .subtask-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--text-primary); margin-bottom: 4px; cursor: pointer; }
     .subtask-item.completed { text-decoration: line-through; color: var(--text-secondary); }
@@ -138,6 +142,7 @@
     textarea.form-control { resize: none; height: 80px; }
     select.form-control { appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%239A9AA6%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 14px top 50%; background-size: 12px auto; }
     input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+    input[type="file"]::file-selector-button { background: var(--bg-card); border: 1px solid var(--accent); color: var(--accent); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; margin-right: 10px; }
     
     .priority-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
     .prio-option { display: none; }
@@ -364,9 +369,14 @@
           <label>Subtareas (Una por línea. Opcional)</label>
           <textarea id="taskSubtasks" class="form-control" style="height: 60px;" placeholder="Investigar&#10;Hacer diapositivas&#10;Imprimir"></textarea>
         </div>
+        <div class="form-group">
+          <label>Fotos de la libreta / pizarrón (Múltiples)</label>
+          <input type="file" id="taskImages" class="form-control" accept="image/*" multiple />
+          <div id="imagePreviewContainer" style="display:flex; gap:5px; margin-top:10px; overflow-x:auto;"></div>
+        </div>
         <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
           <input type="checkbox" id="taskIsExam" style="width: 20px; height: 20px; accent-color: var(--accent);">
-          <label for="taskIsExam" style="margin: 0; cursor: pointer;">¿Es un Examen o Proyecto Final? (Muestra cuenta regresiva)</label>
+          <label for="taskIsExam" style="margin: 0; cursor: pointer;">¿Es un Examen o Proyecto Final?</label>
         </div>
         <button type="submit" class="submit-btn" id="submitBtn">Guardar Tarea</button>
       </form>
@@ -400,14 +410,15 @@
     let tasks = JSON.parse(localStorage.getItem('studytask_data')) || [];
     let currentFilter = 'todas';
     let editTaskId = null;
+    let currentImages = []; // Almacena las imágenes en Base64 temporalmente
 
-    // Elementos DOM
     const taskListEl = document.getElementById('taskList');
     const counterPillEl = document.getElementById('counterPill');
     const taskModal = document.getElementById('taskModal');
     const taskForm = document.getElementById('taskForm');
     const aiModal = document.getElementById('aiModal');
     const aiPromptInput = document.getElementById('aiPrompt');
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
 
     // --- NAVEGACIÓN ---
     function switchTab(tabId, btn) {
@@ -429,15 +440,34 @@
     }
 
     function autoSelectDay() {
-      const today = new Date().getDay(); // 0 Dom, 1 Lun... 6 Sab
+      const today = new Date().getDay();
       const daysMap = {1: 'lunes', 2: 'martes', 3: 'miercoles', 4: 'jueves', 5: 'viernes'};
       const todayName = daysMap[today];
-      if (todayName) {
-        document.getElementById('tab-' + todayName).click();
-      }
+      if (todayName) document.getElementById('tab-' + todayName).click();
     }
 
-    // --- TAREAS Y SUBTAREAS ---
+    // --- COMPRESIÓN DE IMÁGENES ---
+    function compressImage(file, maxWidth = 800) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+          const img = new Image();
+          img.src = event.target.result;
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const scaleSize = maxWidth / img.width;
+            canvas.width = maxWidth;
+            canvas.height = img.height * scaleSize;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            resolve(canvas.toDataURL('image/jpeg', 0.6)); // Calidad 60%
+          };
+        };
+      });
+    }
+
+    // --- TAREAS ---
     function saveTasks() { localStorage.setItem('studytask_data', JSON.stringify(tasks)); }
 
     function getTodayISO(hours = 23, minutes = 59) {
@@ -477,7 +507,6 @@
         const dueToday = isDueToday(task.dueDate) && !task.completed;
         const overdue = isOverdue(task.dueDate) && !task.completed;
         
-        // Cuenta regresiva para examen
         let examBadge = '';
         if (task.isExam && !task.completed) {
           const diffTime = Math.abs(new Date(task.dueDate) - new Date());
@@ -485,7 +514,6 @@
           examBadge = `<div class="exam-countdown">🚨 Faltan ${diffDays} días</div>`;
         }
 
-        // Subtareas
         let subtasksHTML = '';
         if (task.subtasks && task.subtasks.length > 0) {
           subtasksHTML = `<div class="subtask-list">` + 
@@ -495,6 +523,13 @@
                 ${st.text}
               </label>
             `).join('') + `</div>`;
+        }
+
+        let imagesHTML = '';
+        if (task.images && task.images.length > 0) {
+          imagesHTML = `<div class="task-images-container">` + 
+            task.images.map(img => `<img src="${img}" class="task-image" onclick="window.open('${img}', '_blank')">`).join('') + 
+          `</div>`;
         }
 
         return `
@@ -513,23 +548,39 @@
               ${examBadge}
               ${task.description ? `<div class="task-desc">${task.description}</div>` : ''}
               <div class="task-date">${new Date(task.dueDate).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</div>
+              ${imagesHTML}
               ${subtasksHTML}
               <button class="pomo-btn" style="margin-top:10px; padding: 6px 10px; font-size: 0.75rem; width: auto;" onclick="startFocus('${task.title}')">⏱️ Estudiar</button>
             </div>
             <div class="action-btns">
               <button class="icon-btn edit" onclick="editTask(${task.id})">✏️</button>
-            <button class="icon-btn delete" onclick="deleteTask(${task.id})">🗑️</button>
+              <button class="icon-btn delete" onclick="deleteTask(${task.id})">🗑️</button>
             </div>
           </div>
         `;
       }).join('');
     }
 
+    // --- NUEVA LÓGICA: BORRAR FOTOS AL COMPLETAR ---
     window.toggleTask = function(id) {
       const t = tasks.find(t => t.id === id);
       if (t) { 
+        // Si se va a marcar como completada y tiene fotos guardadas
+        if (!t.completed && t.images && t.images.length > 0) {
+          const confirmarBorrado = confirm("¡Felicidades por terminar la tarea! 🎉\n\n¿Quieres borrar las " + t.images.length + " fotos adjuntas para liberar espacio en tu celular?");
+          
+          if (confirmarBorrado) {
+            t.images = []; // Borra las fotos del almacenamiento
+            showToast("Imágenes eliminadas. ¡Espacio liberado! 🧹");
+          }
+        }
+
         t.completed = !t.completed; 
-        if(t.completed) t.completedAt = new Date().toISOString();
+        if(t.completed) {
+            t.completedAt = new Date().toISOString();
+        } else {
+            t.completedAt = null;
+        }
         saveTasks(); renderTasks(); 
       }
     }
@@ -544,10 +595,40 @@
 
     window.deleteTask = function(id) { tasks = tasks.filter(t => t.id !== id); saveTasks(); renderTasks(); }
 
+    // --- PREVISUALIZAR Y COMPRIMIR IMÁGENES ---
+    document.getElementById('taskImages').addEventListener('change', async (e) => {
+      const files = Array.from(e.target.files);
+      if(files.length === 0) return;
+      imagePreviewContainer.innerHTML = '<span style="font-size:0.7rem; color:var(--text-secondary);">Comprimiendo...</span>';
+      
+      let newImages = [];
+      for (let file of files) {
+        const compressed = await compressImage(file);
+        newImages.push(compressed);
+      }
+      currentImages = [...currentImages, ...newImages];
+      
+      imagePreviewContainer.innerHTML = '';
+      currentImages.forEach((img, index) => {
+        imagePreviewContainer.innerHTML += `
+          <div style="position:relative;">
+            <img src="${img}" style="height:50px; border-radius:5px;">
+            <button type="button" onclick="removeImage(${index})" style="position:absolute; top:-5px; right:-5px; background:red; color:white; border:none; border-radius:50%; width:18px; height:18px; font-size:10px; cursor:pointer;">x</button>
+          </div>
+        `;
+      });
+    });
+
+    window.removeImage = function(index) {
+      currentImages.splice(index, 1);
+      document.getElementById('taskImages').dispatchEvent(new Event('change'));
+    }
+
     // --- ABRIR MODAL (NUEVA / EDITAR) ---
     document.getElementById('openModalBtn').addEventListener('click', () => {
-      editTaskId = null;
+      editTaskId = null; currentImages = [];
       taskForm.reset();
+      imagePreviewContainer.innerHTML = '';
       document.getElementById('modalTitle').textContent = "Nueva Tarea";
       document.getElementById('submitBtn').textContent = "Guardar Tarea";
       document.getElementById('editTaskId').value = "";
@@ -559,6 +640,8 @@
       const t = tasks.find(t => t.id === id);
       if (!t) return;
       editTaskId = id;
+      currentImages = t.images ? [...t.images] : [];
+      
       document.getElementById('editTaskId').value = id;
       document.getElementById('modalTitle').textContent = "Editar Tarea";
       document.getElementById('submitBtn').textContent = "Actualizar Tarea";
@@ -570,12 +653,21 @@
       document.getElementById('taskDescription').value = t.description || "";
       document.getElementById('taskIsExam').checked = t.isExam || false;
       
-      // Reconstruir subtareas
       if (t.subtasks && t.subtasks.length > 0) {
         document.getElementById('taskSubtasks').value = t.subtasks.map(st => st.text).join('\n');
       } else {
         document.getElementById('taskSubtasks').value = "";
       }
+
+      imagePreviewContainer.innerHTML = '';
+      currentImages.forEach((img, index) => {
+        imagePreviewContainer.innerHTML += `
+          <div style="position:relative;">
+            <img src="${img}" style="height:50px; border-radius:5px;">
+            <button type="button" onclick="removeImage(${index})" style="position:absolute; top:-5px; right:-5px; background:red; color:white; border:none; border-radius:50%; width:18px; height:18px; font-size:10px; cursor:pointer;">x</button>
+          </div>
+        `;
+      });
       
       taskModal.classList.add('open');
     }
@@ -600,27 +692,23 @@
       }
 
       if (id) {
-        // Editar existente
         const t = tasks.find(t => t.id == id);
         t.title = title; t.subject = subject; t.priority = priority;
         t.dueDate = dueDate; t.description = description; t.isExam = isExam;
-        // Mantenemos el estado de las subtareas que ya existían
+        t.images = currentImages;
         let newSubtasks = subtasks.map((st, i) => {
-           if (t.subtasks && t.subtasks[i] && t.subtasks[i].text === st.text) {
-             return { text: st.text, done: t.subtasks[i].done };
-           }
+           if (t.subtasks && t.subtasks[i] && t.subtasks[i].text === st.text) return { text: st.text, done: t.subtasks[i].done };
            return st;
         });
         t.subtasks = newSubtasks;
       } else {
-        // Nueva
         tasks.push({ 
           id: Date.now(), title, subject, priority, dueDate, description, isExam, 
-          completed: false, image: null, subtasks: subtasks 
+          completed: false, images: currentImages, subtasks: subtasks 
         });
       }
       
-      saveTasks(); renderTasks(); taskForm.reset(); taskModal.classList.remove('open');
+      saveTasks(); renderTasks(); taskForm.reset(); taskModal.classList.remove('open'); currentImages = [];
     });
 
     // --- FILTROS ---
@@ -673,7 +761,6 @@
       const completed = tasks.filter(t => t.completed).length;
       document.getElementById('stat-completed').textContent = completed;
       
-      // Generar gráfico de los últimos 7 días
       const chartContainer = document.getElementById('chartContainer');
       const chartLabels = document.getElementById('chartLabels');
       chartContainer.innerHTML = ''; chartLabels.innerHTML = '';
@@ -681,7 +768,6 @@
       const daysLabel = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'];
       let maxTasksInDay = 1;
 
-      // Array para contar tareas por día
       let last7Days = [];
       for (let i = 6; i >= 0; i--) {
         let d = new Date();
@@ -695,7 +781,7 @@
       last7Days.forEach(day => {
         let heightPercent = (day.count / maxTasksInDay) * 100;
         if (day.count === 0) heightPercent = 0;
-        if (day.count > 0 && heightPercent < 10) heightPercent = 10; // Min height para que se vea
+        if (day.count > 0 && heightPercent < 10) heightPercent = 10;
 
         chartContainer.innerHTML += `
           <div class="chart-bar-container">
@@ -706,7 +792,7 @@
       });
     }
 
-    // --- IA CON NOTAS ---
+    // --- IA CON NOTAS Y MÚLTIPLES IMÁGENES ---
     document.getElementById('openAiModalBtn').addEventListener('click', () => {
       if (!navigator.onLine) { showToast("📡 Sin internet para la IA."); return; }
       
@@ -730,6 +816,10 @@
         if (nextTask.subtasks && nextTask.subtasks.length > 0) {
           const pendingSteps = nextTask.subtasks.filter(st => !st.done).map(st => st.text).join(', ');
           prompt += `\nLos pasos que ya tengo identificados son: ${pendingSteps}.`;
+        }
+
+        if (nextTask.images && nextTask.images.length > 0) {
+          prompt += `\n\n[IMPORTANTE: Te adjuntaré ${nextTask.images.length} imágenes con las instrucciones del profesor. Por favor, léelas y ayúdame con eso.]`;
         }
       } else {
         prompt = "No tengo tareas pendientes, ¿puedes darme un consejo para organizar mejor mi estudio?";
