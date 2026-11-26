@@ -30,82 +30,125 @@
     .header-title h1 span { color: var(--accent); }
     .header-title p { font-size: 0.82rem; color: var(--text-secondary); margin-top: 2px; }
     .stats-pill { background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 8px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; color: var(--accent); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
-    .filters { display: flex; gap: 10px; padding: 8px 20px 16px; }
-    .filter-btn { flex: 1; background: var(--bg-card); border: 1px solid var(--border-subtle); color: var(--text-secondary); padding: 10px 0; border-radius: 14px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
-    .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 4px 15px var(--accent-glow); }
-    .ai-banner { margin: 0 20px 16px; background: linear-gradient(90deg, rgba(157, 78, 221, 0.2), rgba(157, 78, 221, 0.05)); border: 1px solid var(--accent); border-radius: 16px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: transform 0.2s; }
-    .ai-banner:active { transform: scale(0.98); }
+    
+    /* CONTENEDOR GENERAL SCROLL */
+    .content-scroll { padding: 0 20px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; flex: 1; padding-bottom: 20px; }
+
+    /* TARJETAS BASE */
+    .card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 20px; box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
+
+    /* --- TEMPORIZADOR POMODORO --- */
+    .pomodoro-card { display: flex; flex-direction: column; align-items: center; }
+    .pomo-modes { display: flex; background: var(--bg-input); border-radius: 12px; padding: 4px; width: 100%; margin-bottom: 20px; }
+    .pomo-mode { flex: 1; text-align: center; padding: 8px; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); border-radius: 8px; cursor: pointer; transition: 0.2s; }
+    .pomo-mode.active { background: var(--accent); color: white; }
+    
+    .pomo-circle { width: 200px; height: 200px; border-radius: 50%; border: 6px solid var(--bg-input); display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px; position: relative; }
+    .pomo-time { font-size: 3rem; font-weight: 800; letter-spacing: -2px; line-height: 1; }
+    .pomo-label { font-size: 0.75rem; color: var(--text-secondary); font-weight: 700; letter-spacing: 1px; margin-top: 5px; }
+    
+    .pomo-btn { width: 100%; background: var(--accent); color: white; border: none; padding: 15px; border-radius: 14px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; }
+    .pomo-btn:active { transform: scale(0.98); }
+    .pomo-active-task { margin-top: 15px; width: 100%; text-align: left; padding: 12px; background: var(--bg-input); border-radius: 12px; font-size: 0.85rem; border: 1px dashed var(--border-subtle); }
+    .pomo-active-task span { display: block; font-size: 0.7rem; color: var(--text-secondary); font-weight: 700; margin-bottom: 4px; }
+
+    /* --- FILTROS Y TAREAS --- */
+    .filters { display: flex; gap: 8px; margin-bottom: 10px; }
+    .filter-btn { flex: 1; background: var(--bg-input); border: 1px solid var(--border-subtle); color: var(--text-secondary); padding: 10px 0; border-radius: 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    
+    .ai-banner { background: linear-gradient(90deg, rgba(157, 78, 221, 0.2), rgba(157, 78, 221, 0.05)); border: 1px solid var(--accent); border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
     .ai-banner span { font-size: 0.85rem; font-weight: 600; color: var(--accent); }
-    .ai-banner .icon { font-size: 1.2rem; }
-    .task-list { padding: 0 20px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
-    .empty-state { text-align: center; padding: 60px 20px; color: var(--text-secondary); font-size: 0.95rem; font-weight: 500; }
-    .task-card { background: var(--bg-card); border: 1.5px solid var(--border-subtle); border-radius: 20px; padding: 16px; display: flex; align-items: flex-start; gap: 14px; transition: all 0.2s ease; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); }
-    .task-card.due-today:not(.completed) { border-color: var(--danger); box-shadow: 0 0 18px var(--danger-glow); }
-    .task-card.due-tomorrow:not(.completed):not(.due-today) { border-color: var(--warning); box-shadow: 0 0 18px var(--warning-glow); }
-    .task-card.completed { opacity: 0.55; }
-    .check-btn { width: 24px; height: 24px; min-width: 24px; border-radius: 8px; border: 2px solid var(--accent); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-top: 2px; }
+
+    .task-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 16px; display: flex; align-items: flex-start; gap: 12px; position: relative; transition: 0.2s; margin-bottom: 12px; }
+    .task-card.due-today:not(.completed) { border-color: var(--danger); }
+    .task-card.due-tomorrow:not(.completed):not(.due-today) { border-color: var(--warning); }
+    .task-card.completed { opacity: 0.5; }
+    
+    .check-btn { width: 22px; height: 22px; min-width: 22px; border-radius: 6px; border: 2px solid var(--accent); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-top: 2px; }
     .task-card.completed .check-btn { background: var(--accent); }
-    .check-btn svg { width: 14px; height: 14px; stroke: #fff; stroke-width: 3; display: none; }
+    .check-btn svg { width: 12px; height: 12px; stroke: #fff; stroke-width: 3; display: none; }
     .task-card.completed .check-btn svg { display: block; }
+    
     .task-content { flex: 1; min-width: 0; }
-    .task-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; align-items: center; }
-    .badge { font-size: 0.7rem; font-weight: 700; padding: 3px 9px; border-radius: 8px; text-transform: uppercase; letter-spacing: 0.4px; }
-    .badge-subject { background: rgba(157, 78, 221, 0.16); color: #C77DFF; }
+    .task-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+    .badge { font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; text-transform: uppercase; }
+    .badge-subject { background: rgba(157, 78, 221, 0.2); color: #C77DFF; }
     .badge-alta { background: rgba(255, 77, 109, 0.15); color: var(--prio-high); }
     .badge-media { background: rgba(255, 183, 3, 0.15); color: var(--prio-med); }
     .badge-baja { background: rgba(6, 214, 160, 0.15); color: var(--prio-low); }
-    .badge-today { background: var(--danger); color: #fff; animation: pulse 2s infinite; }
+    .badge-today { background: var(--danger); color: #fff; }
     .badge-tomorrow { background: var(--warning); color: #fff; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.75; } }
-    .task-title { font-size: 1rem; font-weight: 700; margin-bottom: 6px; line-height: 1.35; }
+    
+    .task-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
     .task-card.completed .task-title { text-decoration: line-through; color: var(--text-secondary); }
-    .task-date { font-size: 0.78rem; color: var(--text-secondary); display: flex; align-items: center; gap: 5px; font-weight: 500; }
-    .task-card.due-today:not(.completed) .task-date { color: var(--danger); font-weight: 600; }
-    .task-card.due-tomorrow:not(.completed):not(.due-today) .task-date { color: var(--warning); font-weight: 600; }
-    .task-image { width: 100%; max-height: 150px; object-fit: cover; border-radius: 10px; margin-top: 10px; border: 1px solid var(--border-subtle); }
-    .start-timer-btn { margin-top: 12px; background: rgba(157, 78, 221, 0.1); border: 1px solid var(--accent); color: var(--accent); padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; gap: 6px; cursor: pointer; width: fit-content; }
-    .start-timer-btn:active { background: var(--accent); color: white; }
-    .delete-btn { background: transparent; border: none; color: var(--text-secondary); padding: 6px; cursor: pointer; border-radius: 10px; }
-    .schedule-container { padding: 0 20px; display: flex; flex-direction: column; gap: 16px; }
-    .day-card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-subtle); overflow: hidden; }
-    .day-title { background: rgba(157, 78, 221, 0.15); color: var(--accent); padding: 10px 16px; font-weight: 700; font-size: 0.9rem; border-bottom: 1px solid var(--border-subtle); }
-    .class-item { padding: 12px 16px; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
-    .class-item:last-child { border-bottom: none; }
-    .class-time { color: var(--text-secondary); font-weight: 600; font-size: 0.75rem; width: 90px; }
-    .class-name { font-weight: 600; color: var(--text-primary); flex: 1; }
-    .fab { position: fixed; bottom: 84px; right: max(20px, calc(50% - 220px)); width: 58px; height: 58px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px var(--accent-glow); cursor: pointer; z-index: 90; }
-    .fab:active { transform: scale(0.92); }
+    .task-date { font-size: 0.75rem; color: var(--text-secondary); display: flex; align-items: center; gap: 5px; }
+    .task-image { width: 100%; max-height: 120px; object-fit: cover; border-radius: 8px; margin-top: 8px; }
+    .delete-btn { background: transparent; border: none; color: var(--text-secondary); cursor: pointer; }
+
+    /* --- HORARIO (Pestañas) --- */
+    .days-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+    .days-scroll::-webkit-scrollbar { display: none; }
+    .day-tab { background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 10px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); white-space: nowrap; cursor: pointer; }
+    .day-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+    
+    .schedule-day-content { display: none; flex-direction: column; gap: 10px; }
+    .schedule-day-content.active { display: flex; }
+    .class-item { background: var(--bg-card); padding: 12px 16px; border-radius: 12px; border-left: 3px solid var(--accent); display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
+    .class-item.receso { border-left: none; justify-content: center; font-size: 0.75rem; color: var(--text-secondary); background: transparent; border: 1px dashed var(--border-subtle); }
+    .class-time { color: var(--text-secondary); font-size: 0.75rem; font-weight: 600; width: 80px; }
+    .class-name { font-weight: 600; flex: 1; }
+
+    /* --- PROGRESO --- */
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .stat-box { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 16px; }
+    .stat-value { font-size: 2rem; font-weight: 800; margin: 5px 0; }
+    .stat-label { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; }
+    
+    .chart-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 16px; }
+    .chart-bars { display: flex; justify-content: space-between; align-items: flex-end; height: 100px; margin-top: 15px; padding-bottom: 20px; border-bottom: 1px solid var(--border-subtle); }
+    .chart-bar { width: 10%; background: var(--accent); border-radius: 4px 4px 0 0; min-height: 4px; }
+    .chart-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.65rem; color: var(--text-secondary); }
+
+    /* --- FAB Y NAV --- */
+    .fab { position: fixed; bottom: 84px; right: max(20px, calc(50% - 220px)); width: 56px; height: 56px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px var(--accent-glow); cursor: pointer; z-index: 90; }
     .fab.hidden { display: none; }
     .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 480px; height: 68px; background: rgba(24, 24, 30, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-around; align-items: center; z-index: 80; }
-    .nav-item { background: none; border: none; color: var(--text-secondary); display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 0.72rem; font-weight: 600; cursor: pointer; padding: 8px 16px; transition: color 0.2s; }
+    .nav-item { background: none; border: none; color: var(--text-secondary); display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 0.7rem; font-weight: 600; cursor: pointer; padding: 8px 16px; }
     .nav-item.active { color: var(--accent); }
     .nav-item svg { width: 22px; height: 22px; }
+
+    /* --- MODALES Y FORMULARIOS --- */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); display: none; align-items: flex-end; justify-content: center; z-index: 100; }
     .modal-overlay.open { display: flex; }
-    .modal-sheet { width: 100%; max-width: 480px; background: var(--bg-card); border-top-left-radius: 28px; border-top-right-radius: 28px; padding: 24px 22px 32px; border-top: 1px solid var(--border-subtle); animation: slideUp 0.25s ease; max-height: 90vh; overflow-y: auto; }
+    .modal-sheet { width: 100%; max-width: 480px; background: var(--bg-card); border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 24px 22px 32px; animation: slideUp 0.25s ease; max-height: 90vh; overflow-y: auto; }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     .modal-header h2 { font-size: 1.2rem; font-weight: 800; }
     .close-modal { background: var(--bg-input); border: none; color: var(--text-secondary); width: 32px; height: 32px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; }
+    
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
-    .form-control { width: 100%; background: var(--bg-input); border: 1.5px solid var(--border-subtle); color: var(--text-primary); padding: 13px 14px; border-radius: 14px; font-size: 0.95rem; outline: none; font-family: inherit; }
+    .form-control { width: 100%; background: var(--bg-input); border: 1px solid var(--border-subtle); color: var(--text-primary); padding: 14px; border-radius: 12px; font-size: 0.95rem; outline: none; font-family: inherit; }
     .form-control:focus { border-color: var(--accent); }
-    textarea.form-control { resize: none; height: 100px; line-height: 1.4; }
+    textarea.form-control { resize: none; height: 100px; }
     input[type="file"]::file-selector-button { background: var(--bg-card); border: 1px solid var(--accent); color: var(--accent); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; margin-right: 10px; }
+    
     select.form-control { appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%239A9AA6%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 14px top 50%; background-size: 12px auto; }
     input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+    
     .priority-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
     .prio-option { display: none; }
-    .prio-label { text-align: center; padding: 11px 0; background: var(--bg-input); border: 1.5px solid var(--border-subtle); border-radius: 12px; font-size: 0.85rem; font-weight: 700; color: var(--text-secondary); cursor: pointer; }
+    .prio-label { text-align: center; padding: 11px 0; background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: 10px; font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); cursor: pointer; }
     #prio-alta:checked + .prio-label { border-color: var(--prio-high); color: var(--prio-high); background: rgba(255, 77, 109, 0.12); }
     #prio-media:checked + .prio-label { border-color: var(--prio-med); color: var(--prio-med); background: rgba(255, 183, 3, 0.12); }
     #prio-baja:checked + .prio-label { border-color: var(--prio-low); color: var(--prio-low); background: rgba(6, 214, 160, 0.12); }
     #ai-gemini:checked + .prio-label { border-color: var(--accent); color: #fff; background: var(--accent); }
     #ai-chatgpt:checked + .prio-label { border-color: #10A37F; color: #fff; background: #10A37F; }
-    .submit-btn { width: 100%; background: var(--accent); color: #fff; border: none; padding: 15px; border-radius: 16px; font-size: 1rem; font-weight: 700; margin-top: 8px; cursor: pointer; box-shadow: 0 6px 20px var(--accent-glow); }
-    .copy-btn { background: var(--accent); color: white; border: none; padding: 10px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; margin-bottom: 10px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 5px; }
-    .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--bg-card); border: 1px solid var(--accent); color: var(--text-primary); padding: 10px 18px; border-radius: 20px; font-size: 0.82rem; font-weight: 600; z-index: 200; transition: transform 0.3s ease; text-align: center; width: 80%; }
+
+    .submit-btn { width: 100%; background: var(--accent); color: #fff; border: none; padding: 16px; border-radius: 14px; font-size: 1rem; font-weight: 700; margin-top: 10px; cursor: pointer; }
+    .copy-btn { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; margin-bottom: 10px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 5px; }
+    .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--bg-card); border: 1px solid var(--accent); color: var(--text-primary); padding: 12px 20px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; z-index: 200; transition: 0.3s; width: 85%; text-align: center; }
     .toast.show { transform: translateX(-50%) translateY(0); }
   </style>
 </head>
@@ -121,75 +164,111 @@
       <div class="stats-pill" id="counterPill">0 pendientes</div>
     </header>
 
+    <!-- VISTA 1: TAREAS (CON TEMPORIZADOR) -->
     <section id="view-tasks" class="view-section active">
-      <div class="filters">
-        <button class="filter-btn active" data-filter="todas">Todas</button>
-        <button class="filter-btn" data-filter="pendientes">Pendientes</button>
-        <button class="filter-btn" data-filter="completadas">Completadas</button>
+      <div class="content-scroll">
+        
+        <!-- Temporizador -->
+        <div class="card pomodoro-card">
+          <div class="pomo-modes">
+            <div class="pomo-mode active" onclick="setPomoMode('focus', 25)">Enfoque</div>
+            <div class="pomo-mode" onclick="setPomoMode('short', 5)">Descanso</div>
+            <div class="pomo-mode" onclick="setPomoMode('long', 15)">Largo</div>
+          </div>
+          <div class="pomo-circle">
+            <div class="pomo-time" id="pomoTime">25:00</div>
+            <div class="pomo-label" id="pomoLabel">ENFOQUE</div>
+          </div>
+          <button class="pomo-btn" id="pomoStartBtn" onclick="toggleTimer()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            Iniciar
+          </button>
+          <div class="pomo-active-task">
+            <span>TAREA ACTIVA</span>
+            <div id="pomoTaskName">Elige una tarea y pulsa "Estudiar 25 min"</div>
+          </div>
+        </div>
+
+        <div class="ai-banner" id="openAiModalBtn">
+          <span>✨ ¿Atascado? Pregúntale a la IA</span>
+          <span style="font-size:1.2rem;">🤖</span>
+        </div>
+
+        <div class="filters">
+          <button class="filter-btn active" data-filter="todas">Todas</button>
+          <button class="filter-btn" data-filter="pendientes">Pendientes</button>
+          <button class="filter-btn" data-filter="completadas">Completadas</button>
+        </div>
+
+        <div id="taskList"></div>
       </div>
-      <div class="ai-banner" id="openAiModalBtn">
-        <span>✨ ¿Atascado? Pregúntale a la IA</span>
-        <span class="icon">🤖</span>
-      </div>
-      <main class="task-list" id="taskList"></main>
     </section>
 
+    <!-- VISTA 2: HORARIO (CON PESTAÑAS) -->
     <section id="view-schedule" class="view-section">
-      <div class="schedule-container">
-        <div class="day-card">
-          <div class="day-title">Lunes</div>
-          <div class="class-item"><span class="class-time">13:40-14:20</span><span class="class-name" style="color:var(--text-secondary); font-size:0.75rem;">Libre</span></div>
+      <div class="content-scroll">
+        <div>
+          <h2 style="font-size: 1.4rem; font-weight: 800;">Tu horario</h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">Lunes a viernes, de 13:40 a 19:00.</p>
+        </div>
+        
+        <div class="days-scroll">
+          <div class="day-tab active" onclick="switchDay('lunes', this)">Lunes</div>
+          <div class="day-tab" onclick="switchDay('martes', this)">Martes</div>
+          <div class="day-tab" onclick="switchDay('miercoles', this)">Miércoles</div>
+          <div class="day-tab" onclick="switchDay('jueves', this)">Jueves</div>
+          <div class="day-tab" onclick="switchDay('viernes', this)">Viernes</div>
+        </div>
+
+        <div id="day-lunes" class="schedule-day-content active">
+          <div class="class-item"><span class="class-time">13:40-14:20</span><span class="class-name" style="color:var(--text-secondary);">Libre</span></div>
           <div class="class-item"><span class="class-time">14:20-15:00</span><span class="class-name">Temas Selectos Mat.</span></div>
           <div class="class-item"><span class="class-time">15:00-15:40</span><span class="class-name">Temas Selectos Mat.</span></div>
-          <div class="class-item" style="background:rgba(255,255,255,0.05); justify-content:center; font-size:0.75rem; color:var(--text-secondary);">R E C E S O</div>
+          <div class="class-item receso">R E C E S O</div>
           <div class="class-item"><span class="class-time">16:20-17:00</span><span class="class-name">Gestiona (Prof. Pedro)</span></div>
           <div class="class-item"><span class="class-time">17:00-17:40</span><span class="class-name">Gestiona (Prof. Pedro)</span></div>
           <div class="class-item"><span class="class-time">17:40-18:20</span><span class="class-name">Diseña (Prof. Pedro)</span></div>
           <div class="class-item"><span class="class-time">18:20-19:00</span><span class="class-name">Diseña (Prof. Pedro)</span></div>
         </div>
-        
-        <div class="day-card">
-          <div class="day-title">Martes</div>
+
+        <div id="day-martes" class="schedule-day-content">
           <div class="class-item"><span class="class-time">13:40-14:20</span><span class="class-name">Energía y Vida</span></div>
           <div class="class-item"><span class="class-time">14:20-15:00</span><span class="class-name">Temas Selectos Mat.</span></div>
           <div class="class-item"><span class="class-time">15:00-15:40</span><span class="class-name">Inglés V</span></div>
-          <div class="class-item" style="background:rgba(255,255,255,0.05); justify-content:center; font-size:0.75rem; color:var(--text-secondary);">R E C E S O</div>
+          <div class="class-item receso">R E C E S O</div>
           <div class="class-item"><span class="class-time">16:20-17:00</span><span class="class-name">Gestiona (Prof. Pedro)</span></div>
           <div class="class-item"><span class="class-time">17:00-17:40</span><span class="class-name">Conciencia Histórica</span></div>
           <div class="class-item"><span class="class-time">17:40-18:20</span><span class="class-name">Gestiona (Prof. Pedro)</span></div>
           <div class="class-item"><span class="class-time">18:20-19:00</span><span class="class-name">Gestiona (Prof. Pedro)</span></div>
         </div>
 
-        <div class="day-card">
-          <div class="day-title">Miércoles</div>
+        <div id="day-miercoles" class="schedule-day-content">
           <div class="class-item"><span class="class-time">13:40-14:20</span><span class="class-name">Economía Pública</span></div>
           <div class="class-item"><span class="class-time">14:20-15:00</span><span class="class-name">Conciencia Histórica</span></div>
           <div class="class-item"><span class="class-time">15:00-15:40</span><span class="class-name">Conciencia Histórica</span></div>
-          <div class="class-item" style="background:rgba(255,255,255,0.05); justify-content:center; font-size:0.75rem; color:var(--text-secondary);">R E C E S O</div>
+          <div class="class-item receso">R E C E S O</div>
           <div class="class-item"><span class="class-time">16:20-17:00</span><span class="class-name">Gestiona (Prof. Pedro)</span></div>
           <div class="class-item"><span class="class-time">17:00-17:40</span><span class="class-name">Gestiona (Prof. Pedro)</span></div>
           <div class="class-item"><span class="class-time">17:40-18:20</span><span class="class-name">Diseña (Prof. Pedro)</span></div>
           <div class="class-item"><span class="class-time">18:20-19:00</span><span class="class-name">Diseña (Prof. Pedro)</span></div>
         </div>
 
-        <div class="day-card">
-          <div class="day-title">Jueves</div>
+        <div id="day-jueves" class="schedule-day-content">
           <div class="class-item"><span class="class-time">13:40-14:20</span><span class="class-name">Energía y Vida</span></div>
           <div class="class-item"><span class="class-time">14:20-15:00</span><span class="class-name">Economía Pública</span></div>
           <div class="class-item"><span class="class-time">15:00-15:40</span><span class="class-name">Economía Pública</span></div>
-          <div class="class-item" style="background:rgba(255,255,255,0.05); justify-content:center; font-size:0.75rem; color:var(--text-secondary);">R E C E S O</div>
+          <div class="class-item receso">R E C E S O</div>
           <div class="class-item"><span class="class-time">16:20-17:00</span><span class="class-name">Tutorías</span></div>
           <div class="class-item"><span class="class-time">17:00-17:40</span><span class="class-name">Inglés V</span></div>
           <div class="class-item"><span class="class-time">17:40-18:20</span><span class="class-name">Gestiona (Prof. Pedro)</span></div>
           <div class="class-item"><span class="class-time">18:20-19:00</span><span class="class-name">Gestiona (Prof. Pedro)</span></div>
         </div>
 
-        <div class="day-card">
-          <div class="day-title">Viernes</div>
+        <div id="day-viernes" class="schedule-day-content">
           <div class="class-item"><span class="class-time">13:40-14:20</span><span class="class-name">Inglés V</span></div>
           <div class="class-item"><span class="class-time">14:20-15:00</span><span class="class-name">Socioemocional</span></div>
           <div class="class-item"><span class="class-time">15:00-15:40</span><span class="class-name">Economía Pública</span></div>
-          <div class="class-item" style="background:rgba(255,255,255,0.05); justify-content:center; font-size:0.75rem; color:var(--text-secondary);">R E C E S O</div>
+          <div class="class-item receso">R E C E S O</div>
           <div class="class-item"><span class="class-time">16:20-17:00</span><span class="class-name">Energía y Vida</span></div>
           <div class="class-item"><span class="class-time">17:00-17:40</span><span class="class-name">Temas Selectos Mat.</span></div>
           <div class="class-item"><span class="class-time">17:40-18:20</span><span class="class-name">Temas Selectos Mat.</span></div>
@@ -198,15 +277,54 @@
       </div>
     </section>
 
+    <!-- VISTA 3: PROGRESO -->
     <section id="view-progress" class="view-section">
-      <div style="padding: 20px;">
-        <div class="day-card" style="text-align: center; padding: 30px 20px;">
-          <h2 style="font-size: 2.5rem; color: var(--accent); margin-bottom: 5px;">🔥 1</h2>
-          <p style="color: var(--text-secondary); font-size: 0.9rem;">Días seguidos de racha</p>
+      <div class="content-scroll">
+        <div>
+          <h2 style="font-size: 1.4rem; font-weight: 800;">Tu progreso</h2>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">Así va tu semana de estudio</p>
         </div>
-        <div class="day-card" style="margin-top: 15px;">
-          <div class="day-title">Tareas Completadas</div>
-          <div style="padding: 20px; text-align: center; font-size: 1.5rem; font-weight: 800;" id="completed-count">0</div>
+
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div style="font-size: 1.2rem; color: var(--warning);">🔥</div>
+            <div class="stat-value">1</div>
+            <div class="stat-label">Días de racha</div>
+          </div>
+          <div class="stat-box">
+            <div style="font-size: 1.2rem; color: var(--accent);">✔️</div>
+            <div class="stat-value" id="stat-completed">0</div>
+            <div class="stat-label">Tareas completadas</div>
+          </div>
+          <div class="stat-box">
+            <div style="font-size: 1.2rem; color: var(--accent);">⏱️</div>
+            <div class="stat-value" id="stat-focus">0 <span style="font-size:1rem; font-weight:600;">min</span></div>
+            <div class="stat-label">Minutos de enfoque</div>
+          </div>
+          <div class="stat-box">
+            <div style="font-size: 1.2rem; color: var(--accent);">📋</div>
+            <div class="stat-value" id="stat-pending">0</div>
+            <div class="stat-label">Pendientes</div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600;">
+            <span>Últimos 7 días</span>
+            <span style="color: var(--text-secondary);">Tareas completadas</span>
+          </div>
+          <div class="chart-bars">
+            <div class="chart-bar" style="height: 10%;"></div>
+            <div class="chart-bar" style="height: 20%;"></div>
+            <div class="chart-bar" style="height: 0%;"></div>
+            <div class="chart-bar" style="height: 40%;"></div>
+            <div class="chart-bar" style="height: 80%;"></div>
+            <div class="chart-bar" style="height: 50%;"></div>
+            <div class="chart-bar" style="height: 100%;"></div>
+          </div>
+          <div class="chart-labels">
+            <span>Vi</span><span>Sá</span><span>Do</span><span>Lu</span><span>Ma</span><span>Mi</span><span>Ju</span>
+          </div>
         </div>
       </div>
     </section>
@@ -215,20 +333,20 @@
 
     <nav class="bottom-nav">
       <button class="nav-item active" onclick="switchTab('view-tasks', this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
         <span>Tareas</span>
       </button>
       <button class="nav-item" onclick="switchTab('view-schedule', this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
         <span>Horario</span>
       </button>
       <button class="nav-item" onclick="switchTab('view-progress', this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
         <span>Progreso</span>
       </button>
     </nav>
   </div>
-
+    <!-- MODALES -->
   <div class="modal-overlay" id="taskModal">
     <div class="modal-sheet">
       <div class="modal-header">
@@ -286,10 +404,7 @@
         <div class="form-group">
           <label>Texto para la IA (Editable)</label>
           <textarea id="aiPrompt" class="form-control" placeholder="Escribe aquí..." required></textarea>
-          <button type="button" class="copy-btn" onclick="copyAiPrompt()">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-            Copiar Texto
-          </button>
+          <button type="button" class="copy-btn" onclick="copyAiPrompt()">Copiar Texto</button>
         </div>
         <div class="form-group">
           <label>Elige tu IA favorita</label>
@@ -302,54 +417,55 @@
       </form>
     </div>
   </div>
-    <script>
-    function switchTab(tabId, btn) {
-      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
-      document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-      btn.classList.add('active');
-      const fab = document.getElementById('openModalBtn');
-      if(tabId === 'view-tasks') { fab.classList.remove('hidden'); } else { fab.classList.add('hidden'); }
-      if(tabId === 'view-progress') {
-        const completed = tasks.filter(t => t.completed).length;
-        document.getElementById('completed-count').textContent = completed;
-      }
-    }
 
-    function getTodayISO(hours = 23, minutes = 59) {
-      const now = new Date(); now.setHours(hours, minutes, 0, 0);
-      const offset = now.getTimezoneOffset() * 60000;
-      return new Date(now - offset).toISOString().slice(0, 16);
-    }
-    function getTomorrowISO(hours = 14, minutes = 0) {
-      const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1); tomorrow.setHours(hours, minutes, 0, 0);
-      const offset = tomorrow.getTimezoneOffset() * 60000;
-      return new Date(tomorrow - offset).toISOString().slice(0, 16);
-    }
-
+  <script>
+    // --- VARIABLES GLOBALES ---
     let tasks = JSON.parse(localStorage.getItem('studytask_data')) || [
       { id: 1, title: 'Modelo Entidad-Relación', subject: 'Diseña (Prof. Pedro)', priority: 'Alta', dueDate: getTodayISO(20, 0), completed: false, image: null }
     ];
-
     let currentFilter = 'todas';
+    
+    // Elementos
     const taskListEl = document.getElementById('taskList');
     const counterPillEl = document.getElementById('counterPill');
-    
     const taskModal = document.getElementById('taskModal');
     const openModalBtn = document.getElementById('openModalBtn');
     const closeModalBtn = document.getElementById('closeModalBtn');
     const taskForm = document.getElementById('taskForm');
     const filterBtns = document.querySelectorAll('.filter-btn');
-
     const aiModal = document.getElementById('aiModal');
     const openAiModalBtn = document.getElementById('openAiModalBtn');
     const closeAiModalBtn = document.getElementById('closeAiModalBtn');
     const aiForm = document.getElementById('aiForm');
     const aiPromptInput = document.getElementById('aiPrompt');
 
-    function saveTasks() { 
-      try { localStorage.setItem('studytask_data', JSON.stringify(tasks)); } 
-      catch (e) { showToast("Memoria llena. Usa fotos más ligeras."); }
+    // --- NAVEGACIÓN Y PESTAÑAS ---
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+      btn.classList.add('active');
+      
+      const fab = document.getElementById('openModalBtn');
+      fab.classList.toggle('hidden', tabId !== 'view-tasks');
+      
+      if(tabId === 'view-progress') updateStats();
+    }
+
+    function switchDay(dayId, btn) {
+      document.querySelectorAll('.schedule-day-content').forEach(div => div.classList.remove('active'));
+      document.getElementById('day-' + dayId).classList.add('active');
+      document.querySelectorAll('.day-tab').forEach(tab => tab.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    // --- LÓGICA DE TAREAS ---
+    function saveTasks() { localStorage.setItem('studytask_data', JSON.stringify(tasks)); }
+
+    function getTodayISO(hours = 23, minutes = 59) {
+      const now = new Date(); now.setHours(hours, minutes, 0, 0);
+      const offset = now.getTimezoneOffset() * 60000;
+      return new Date(now - offset).toISOString().slice(0, 16);
     }
 
     function isDueToday(dateString) {
@@ -365,11 +481,6 @@
       return due.getDate() === tomorrow.getDate() && due.getMonth() === tomorrow.getMonth() && due.getFullYear() === tomorrow.getFullYear();
     }
 
-    function formatDateTime(dateString) {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', hour12: true });
-    }
-
     function renderTasks() {
       const pendingCount = tasks.filter(t => !t.completed).length;
       counterPillEl.textContent = `${pendingCount} pendiente${pendingCount === 1 ? '' : 's'}`;
@@ -381,7 +492,7 @@
       }).sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
 
       if (filtered.length === 0) {
-        taskListEl.innerHTML = `<div class="empty-state">No hay tareas aquí. ¡A darle al +!</div>`;
+        taskListEl.innerHTML = `<div style="text-align:center; padding: 40px 0; color:var(--text-secondary);">No hay tareas aquí. ¡A darle al +!</div>`;
         return;
       }
 
@@ -402,36 +513,94 @@
                 ${dueTomorrow ? '<span class="badge badge-tomorrow">¡MAÑANA!</span>' : ''}
               </div>
               <div class="task-title">${task.title}</div>
-              <div class="task-date">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                ${formatDateTime(task.dueDate)}
-              </div>
-              ${task.image ? `<img src="${task.image}" class="task-image" alt="Imagen de la tarea">` : ''}
-              <button class="start-timer-btn" onclick="startTimer('${task.title}')">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                Estudiar 25 min
-              </button>
+              <div class="task-date">${new Date(task.dueDate).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</div>
+              ${task.image ? `<img src="${task.image}" class="task-image">` : ''}
+              <button class="pomo-btn" style="margin-top:10px; padding: 8px; font-size: 0.75rem; width: auto;" onclick="startFocus('${task.title}')">Estudiar 25m</button>
             </div>
-            <button class="delete-btn" onclick="deleteTask(${task.id})">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-            </button>
+            <button class="delete-btn" onclick="deleteTask(${task.id})">✖</button>
           </div>
         `;
       }).join('');
     }
 
-    window.toggleTask = function(id) { const t = tasks.find(t => t.id === id); if (t) { t.completed = !t.completed; saveTasks(); renderTasks(); } }
+    window.toggleTask = function(id) {
+      const t = tasks.find(t => t.id === id);
+      if (t) { t.completed = !t.completed; saveTasks(); renderTasks(); }
+    }
     window.deleteTask = function(id) { tasks = tasks.filter(t => t.id !== id); saveTasks(); renderTasks(); }
     window.showToast = function(msg) {
       const toast = document.getElementById('toast');
       toast.textContent = msg; toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2500);
+      setTimeout(() => toast.classList.remove('show'), 3000);
     }
 
-    window.startTimer = function(taskName) {
-      alert(`🍅 ¡Modo Pomodoro iniciado para: ${taskName}!\n\nConcéntrate 25 minutos.`);
+    // --- LÓGICA DEL TEMPORIZADOR POMODORO ---
+    let timerInterval;
+    let timeLeft = 25 * 60;
+    let isRunning = false;
+    let currentMode = 'focus';
+
+    function updateTimerDisplay() {
+      const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+      const s = (timeLeft % 60).toString().padStart(2, '0');
+      document.getElementById('pomoTime').textContent = `${m}:${s}`;
     }
 
+    window.setPomoMode = function(mode, minutes) {
+      currentMode = mode;
+      timeLeft = minutes * 60;
+      isRunning = false;
+      clearInterval(timerInterval);
+      document.getElementById('pomoStartBtn').innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Iniciar`;
+      document.getElementById('pomoLabel').textContent = mode === 'focus' ? 'ENFOQUE' : 'DESCANSO';
+      document.querySelectorAll('.pomo-mode').forEach(el => el.classList.remove('active'));
+      event.target.classList.add('active');
+      updateTimerDisplay();
+    }
+
+    window.startFocus = function(taskName) {
+      document.getElementById('pomoTaskName').textContent = taskName;
+      switchTab('view-tasks', document.querySelector('.nav-item'));
+      setPomoMode('focus', 25);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.toggleTimer = function() {
+      const btn = document.getElementById('pomoStartBtn');
+      if (isRunning) {
+        clearInterval(timerInterval);
+        btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Reanudar`;
+      } else {
+        if (timeLeft === 0) timeLeft = currentMode === 'focus' ? 25 * 60 : 5 * 60;
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          updateTimerDisplay();
+          if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            isRunning = false;
+            btn.innerHTML = 'Iniciar';
+            showToast("¡Tiempo terminado!");
+            // Aquí podrías sumar minutos de enfoque al progreso
+          }
+        }, 1000);
+        btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg> Pausar`;
+      }
+      isRunning = !isRunning;
+    }
+
+    // --- ACTUALIZAR PROGRESO ---
+    function updateStats() {
+      const completed = tasks.filter(t => t.completed).length;
+      const pending = tasks.filter(t => !t.completed).length;
+      document.getElementById('stat-completed').textContent = completed;
+      document.getElementById('stat-pending').textContent = pending;
+      // Simulamos gráfica basándonos en las tareas
+      document.querySelectorAll('.chart-bar').forEach((bar, i) => {
+        bar.style.height = `${Math.random() * 100}%`; // Gráfica aleatoria visual por ahora
+      });
+    }
+
+    // --- EVENTOS (MODALES Y FORMULARIOS) ---
     openModalBtn.addEventListener('click', () => taskModal.classList.add('open'));
     closeModalBtn.addEventListener('click', () => taskModal.classList.remove('open'));
     
@@ -464,38 +633,29 @@
       });
     });
 
+    // --- EVENTOS IA ---
     openAiModalBtn.addEventListener('click', () => {
-      if (!navigator.onLine) {
-        showToast("📡 Sin internet. Puedes usar tareas, pero necesitas datos para la IA.");
-        return;
-      }
+      if (!navigator.onLine) { showToast("📡 Sin internet. Necesitas datos para la IA."); return; }
       if (tasks.length > 0) {
         const lastTask = tasks[tasks.length - 1];
-        const imgWarning = lastTask.image ? "\n\n[IMPORTANTE: Te adjuntaré una imagen con las instrucciones del profesor. Por favor, léela y ayúdame a resolverlo.]" : "";
-        aiPromptInput.value = `Ayúdame a resolver o investigar sobre la tarea: "${lastTask.title}" de la materia "${lastTask.subject}". Necesito una guía o explicación.${imgWarning}`;
+        const imgWarning = lastTask.image ? "\n\n[IMPORTANTE: Te adjuntaré una imagen con las instrucciones del profesor.]" : "";
+        aiPromptInput.value = `Ayúdame con la tarea: "${lastTask.title}" de la materia "${lastTask.subject}". Necesito una guía.${imgWarning}`;
       } else { aiPromptInput.value = ""; }
       aiModal.classList.add('open');
     });
 
     closeAiModalBtn.addEventListener('click', () => aiModal.classList.remove('open'));
-
     window.copyAiPrompt = function() {
-      navigator.clipboard.writeText(aiPromptInput.value).then(() => {
-        showToast("¡Texto copiado! Pégalo en la IA.");
-      }).catch(() => {
-        showToast("Error al copiar.");
-      });
+      navigator.clipboard.writeText(aiPromptInput.value).then(() => showToast("¡Texto copiado!")).catch(() => showToast("Error al copiar."));
     }
-
     aiForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const engine = document.querySelector('input[name="aiEngine"]:checked').value;
       const url = engine === 'gemini' ? `https://gemini.google.com/app` : `https://chatgpt.com/`;
-      window.open(url, '_blank');
-      aiForm.reset(); aiModal.classList.remove('open');
+      window.open(url, '_blank'); aiForm.reset(); aiModal.classList.remove('open');
     });
 
-    renderTasks();
+    renderTasks(); updateTimerDisplay();
   </script>
 </body>
 </html>
