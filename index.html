@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#121212">
-  <title>StudyTask - Organizador</title>
+  <title>StudyTask</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="manifest" href="./manifest.json">
   <script>if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js'); }</script>
@@ -14,8 +14,7 @@
       --bg-main: #121212; --bg-card: #1C1C22; --bg-input: #26262E;
       --accent: #9D4EDD; --accent-glow: rgba(157, 78, 221, 0.35);
       --text-primary: #F4F4F6; --text-secondary: #9A9AA6;
-      --danger: #FF3B5C; --danger-glow: rgba(255, 59, 92, 0.25);
-      --warning: #FF9500; --warning-glow: rgba(255, 149, 0, 0.25);
+      --danger: #FF3B5C; --warning: #FF9500;
       --prio-high: #FF4D6D; --prio-med: #FFB703; --prio-low: #06D6A0;
       --border-subtle: #2C2C36;
     }
@@ -25,44 +24,39 @@
     .view-section { display: none; flex-direction: column; flex: 1; animation: fadeIn 0.3s ease; }
     .view-section.active { display: flex; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
     header { padding: 24px 20px 14px; display: flex; justify-content: space-between; align-items: center; }
     .header-title h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px; }
     .header-title h1 span { color: var(--accent); }
     .header-title p { font-size: 0.82rem; color: var(--text-secondary); margin-top: 2px; }
-    .stats-pill { background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 8px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; color: var(--accent); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
+    .stats-pill { background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 8px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; color: var(--accent); }
     
-    /* CONTENEDOR GENERAL SCROLL */
     .content-scroll { padding: 0 20px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; flex: 1; padding-bottom: 20px; }
-
-    /* TARJETAS BASE */
     .card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 20px; box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
 
-    /* --- TEMPORIZADOR POMODORO --- */
+    /* TEMPORIZADOR */
     .pomodoro-card { display: flex; flex-direction: column; align-items: center; }
     .pomo-modes { display: flex; background: var(--bg-input); border-radius: 12px; padding: 4px; width: 100%; margin-bottom: 20px; }
-    .pomo-mode { flex: 1; text-align: center; padding: 8px; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); border-radius: 8px; cursor: pointer; transition: 0.2s; }
+    .pomo-mode { flex: 1; text-align: center; padding: 8px; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); border-radius: 8px; cursor: pointer; }
     .pomo-mode.active { background: var(--accent); color: white; }
-    
-    .pomo-circle { width: 200px; height: 200px; border-radius: 50%; border: 6px solid var(--bg-input); display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px; position: relative; }
-    .pomo-time { font-size: 3rem; font-weight: 800; letter-spacing: -2px; line-height: 1; }
-    .pomo-label { font-size: 0.75rem; color: var(--text-secondary); font-weight: 700; letter-spacing: 1px; margin-top: 5px; }
-    
-    .pomo-btn { width: 100%; background: var(--accent); color: white; border: none; padding: 15px; border-radius: 14px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.2s; }
-    .pomo-btn:active { transform: scale(0.98); }
+    .pomo-circle { width: 200px; height: 200px; border-radius: 50%; border: 6px solid var(--bg-input); display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 20px; }
+    .pomo-time { font-size: 3rem; font-weight: 800; line-height: 1; }
+    .pomo-label { font-size: 0.75rem; color: var(--text-secondary); font-weight: 700; margin-top: 5px; }
+    .pomo-btn { width: 100%; background: var(--accent); color: white; border: none; padding: 15px; border-radius: 14px; font-size: 1rem; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; }
     .pomo-active-task { margin-top: 15px; width: 100%; text-align: left; padding: 12px; background: var(--bg-input); border-radius: 12px; font-size: 0.85rem; border: 1px dashed var(--border-subtle); }
     .pomo-active-task span { display: block; font-size: 0.7rem; color: var(--text-secondary); font-weight: 700; margin-bottom: 4px; }
 
-    /* --- FILTROS Y TAREAS --- */
+    /* TAREAS */
     .filters { display: flex; gap: 8px; margin-bottom: 10px; }
-    .filter-btn { flex: 1; background: var(--bg-input); border: 1px solid var(--border-subtle); color: var(--text-secondary); padding: 10px 0; border-radius: 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    .filter-btn { flex: 1; background: var(--bg-input); border: 1px solid var(--border-subtle); color: var(--text-secondary); padding: 10px 0; border-radius: 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
     .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-    
     .ai-banner { background: linear-gradient(90deg, rgba(157, 78, 221, 0.2), rgba(157, 78, 221, 0.05)); border: 1px solid var(--accent); border-radius: 16px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
     .ai-banner span { font-size: 0.85rem; font-weight: 600; color: var(--accent); }
 
-    .task-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 16px; display: flex; align-items: flex-start; gap: 12px; position: relative; transition: 0.2s; margin-bottom: 12px; }
+    .task-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 16px; display: flex; align-items: flex-start; gap: 12px; position: relative; margin-bottom: 12px; transition: 0.2s; }
     .task-card.due-today:not(.completed) { border-color: var(--danger); }
     .task-card.due-tomorrow:not(.completed):not(.due-today) { border-color: var(--warning); }
+    .task-card.overdue:not(.completed) { border-color: var(--danger); background: rgba(255, 59, 92, 0.05); }
     .task-card.completed { opacity: 0.5; }
     
     .check-btn { width: 22px; height: 22px; min-width: 22px; border-radius: 6px; border: 2px solid var(--accent); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-top: 2px; }
@@ -79,19 +73,30 @@
     .badge-baja { background: rgba(6, 214, 160, 0.15); color: var(--prio-low); }
     .badge-today { background: var(--danger); color: #fff; }
     .badge-tomorrow { background: var(--warning); color: #fff; }
+    .badge-overdue { background: var(--danger); color: #fff; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
     
     .task-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
     .task-card.completed .task-title { text-decoration: line-through; color: var(--text-secondary); }
+    .task-desc { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 6px; background: var(--bg-input); padding: 6px; border-radius: 6px; font-style: italic; white-space: pre-wrap; }
     .task-date { font-size: 0.75rem; color: var(--text-secondary); display: flex; align-items: center; gap: 5px; }
-    .task-image { width: 100%; max-height: 120px; object-fit: cover; border-radius: 8px; margin-top: 8px; }
-    .delete-btn { background: transparent; border: none; color: var(--text-secondary); cursor: pointer; }
+    
+    .subtask-list { margin-top: 10px; padding-left: 10px; border-left: 2px solid var(--border-subtle); }
+    .subtask-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--text-primary); margin-bottom: 4px; cursor: pointer; }
+    .subtask-item.completed { text-decoration: line-through; color: var(--text-secondary); }
+    .subtask-item input { accent-color: var(--accent); }
 
-    /* --- HORARIO (Pestañas) --- */
-    .days-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
-    .days-scroll::-webkit-scrollbar { display: none; }
+    .exam-countdown { font-size: 0.8rem; color: var(--prio-high); font-weight: 700; margin-top: 5px; display: flex; align-items: center; gap: 4px; }
+
+    .action-btns { display: flex; flex-direction: column; gap: 8px; }
+    .icon-btn { background: transparent; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.1rem; }
+    .icon-btn.edit:hover { color: var(--accent); }
+    .icon-btn.delete:hover { color: var(--danger); }
+
+    /* HORARIO */
+    .days-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; }
     .day-tab { background: var(--bg-card); border: 1px solid var(--border-subtle); padding: 10px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); white-space: nowrap; cursor: pointer; }
     .day-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
-    
     .schedule-day-content { display: none; flex-direction: column; gap: 10px; }
     .schedule-day-content.active { display: flex; }
     .class-item { background: var(--bg-card); padding: 12px 16px; border-radius: 12px; border-left: 3px solid var(--accent); display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
@@ -99,18 +104,18 @@
     .class-time { color: var(--text-secondary); font-size: 0.75rem; font-weight: 600; width: 80px; }
     .class-name { font-weight: 600; flex: 1; }
 
-    /* --- PROGRESO --- */
+    /* PROGRESO */
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
     .stat-box { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 16px; }
     .stat-value { font-size: 2rem; font-weight: 800; margin: 5px 0; }
     .stat-label { font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; }
-    
     .chart-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 16px; }
     .chart-bars { display: flex; justify-content: space-between; align-items: flex-end; height: 100px; margin-top: 15px; padding-bottom: 20px; border-bottom: 1px solid var(--border-subtle); }
-    .chart-bar { width: 10%; background: var(--accent); border-radius: 4px 4px 0 0; min-height: 4px; }
+    .chart-bar-container { width: 10%; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; }
+    .chart-bar { width: 100%; background: var(--accent); border-radius: 4px 4px 0 0; min-height: 0px; transition: height 0.5s ease; }
     .chart-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.65rem; color: var(--text-secondary); }
 
-    /* --- FAB Y NAV --- */
+    /* UI Y MODALES */
     .fab { position: fixed; bottom: 84px; right: max(20px, calc(50% - 220px)); width: 56px; height: 56px; border-radius: 50%; background: var(--accent); color: #fff; border: none; font-size: 1.8rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 24px var(--accent-glow); cursor: pointer; z-index: 90; }
     .fab.hidden { display: none; }
     .bottom-nav { position: fixed; bottom: 0; width: 100%; max-width: 480px; height: 68px; background: rgba(24, 24, 30, 0.95); backdrop-filter: blur(10px); border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-around; align-items: center; z-index: 80; }
@@ -118,7 +123,6 @@
     .nav-item.active { color: var(--accent); }
     .nav-item svg { width: 22px; height: 22px; }
 
-    /* --- MODALES Y FORMULARIOS --- */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); display: none; align-items: flex-end; justify-content: center; z-index: 100; }
     .modal-overlay.open { display: flex; }
     .modal-sheet { width: 100%; max-width: 480px; background: var(--bg-card); border-top-left-radius: 24px; border-top-right-radius: 24px; padding: 24px 22px 32px; animation: slideUp 0.25s ease; max-height: 90vh; overflow-y: auto; }
@@ -131,9 +135,7 @@
     .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
     .form-control { width: 100%; background: var(--bg-input); border: 1px solid var(--border-subtle); color: var(--text-primary); padding: 14px; border-radius: 12px; font-size: 0.95rem; outline: none; font-family: inherit; }
     .form-control:focus { border-color: var(--accent); }
-    textarea.form-control { resize: none; height: 100px; }
-    input[type="file"]::file-selector-button { background: var(--bg-card); border: 1px solid var(--accent); color: var(--accent); padding: 8px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; margin-right: 10px; }
-    
+    textarea.form-control { resize: none; height: 80px; }
     select.form-control { appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%239A9AA6%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 14px top 50%; background-size: 12px auto; }
     input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
     
@@ -147,7 +149,7 @@
     #ai-chatgpt:checked + .prio-label { border-color: #10A37F; color: #fff; background: #10A37F; }
 
     .submit-btn { width: 100%; background: var(--accent); color: #fff; border: none; padding: 16px; border-radius: 14px; font-size: 1rem; font-weight: 700; margin-top: 10px; cursor: pointer; }
-    .copy-btn { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; margin-bottom: 10px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 5px; }
+    .copy-btn { background: var(--accent); color: white; border: none; padding: 12px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; margin-top: 10px; width: 100%; display: flex; justify-content: center; gap: 5px; }
     .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--bg-card); border: 1px solid var(--accent); color: var(--text-primary); padding: 12px 20px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; z-index: 200; transition: 0.3s; width: 85%; text-align: center; }
     .toast.show { transform: translateX(-50%) translateY(0); }
   </style>
@@ -155,7 +157,6 @@
 <body>
   <div class="app-container">
     <div id="toast" class="toast">Notificación</div>
-
     <header>
       <div class="header-title">
         <h1>STUDY<span>TASK</span></h1>
@@ -164,16 +165,14 @@
       <div class="stats-pill" id="counterPill">0 pendientes</div>
     </header>
 
-    <!-- VISTA 1: TAREAS (CON TEMPORIZADOR) -->
+    <!-- VISTA TAREAS -->
     <section id="view-tasks" class="view-section active">
       <div class="content-scroll">
-        
-        <!-- Temporizador -->
+        <!-- Pomodoro -->
         <div class="card pomodoro-card">
           <div class="pomo-modes">
             <div class="pomo-mode active" onclick="setPomoMode('focus', 25)">Enfoque</div>
             <div class="pomo-mode" onclick="setPomoMode('short', 5)">Descanso</div>
-            <div class="pomo-mode" onclick="setPomoMode('long', 15)">Largo</div>
           </div>
           <div class="pomo-circle">
             <div class="pomo-time" id="pomoTime">25:00</div>
@@ -185,7 +184,7 @@
           </button>
           <div class="pomo-active-task">
             <span>TAREA ACTIVA</span>
-            <div id="pomoTaskName">Elige una tarea y pulsa "Estudiar 25 min"</div>
+            <div id="pomoTaskName">Elige una tarea y pulsa "Estudiar"</div>
           </div>
         </div>
 
@@ -204,7 +203,7 @@
       </div>
     </section>
 
-    <!-- VISTA 2: HORARIO (CON PESTAÑAS) -->
+    <!-- VISTA HORARIO -->
     <section id="view-schedule" class="view-section">
       <div class="content-scroll">
         <div>
@@ -213,14 +212,14 @@
         </div>
         
         <div class="days-scroll">
-          <div class="day-tab active" onclick="switchDay('lunes', this)">Lunes</div>
-          <div class="day-tab" onclick="switchDay('martes', this)">Martes</div>
-          <div class="day-tab" onclick="switchDay('miercoles', this)">Miércoles</div>
-          <div class="day-tab" onclick="switchDay('jueves', this)">Jueves</div>
-          <div class="day-tab" onclick="switchDay('viernes', this)">Viernes</div>
+          <div class="day-tab" id="tab-lunes" onclick="switchDay('lunes', this)">Lunes</div>
+          <div class="day-tab" id="tab-martes" onclick="switchDay('martes', this)">Martes</div>
+          <div class="day-tab" id="tab-miercoles" onclick="switchDay('miercoles', this)">Miércoles</div>
+          <div class="day-tab" id="tab-jueves" onclick="switchDay('jueves', this)">Jueves</div>
+          <div class="day-tab" id="tab-viernes" onclick="switchDay('viernes', this)">Viernes</div>
         </div>
 
-        <div id="day-lunes" class="schedule-day-content active">
+        <div id="day-lunes" class="schedule-day-content">
           <div class="class-item"><span class="class-time">13:40-14:20</span><span class="class-name" style="color:var(--text-secondary);">Libre</span></div>
           <div class="class-item"><span class="class-time">14:20-15:00</span><span class="class-name">Temas Selectos Mat.</span></div>
           <div class="class-item"><span class="class-time">15:00-15:40</span><span class="class-name">Temas Selectos Mat.</span></div>
@@ -230,7 +229,6 @@
           <div class="class-item"><span class="class-time">17:40-18:20</span><span class="class-name">Diseña (Prof. Pedro)</span></div>
           <div class="class-item"><span class="class-time">18:20-19:00</span><span class="class-name">Diseña (Prof. Pedro)</span></div>
         </div>
-
         <div id="day-martes" class="schedule-day-content">
           <div class="class-item"><span class="class-time">13:40-14:20</span><span class="class-name">Energía y Vida</span></div>
           <div class="class-item"><span class="class-time">14:20-15:00</span><span class="class-name">Temas Selectos Mat.</span></div>
@@ -241,7 +239,6 @@
           <div class="class-item"><span class="class-time">17:40-18:20</span><span class="class-name">Gestiona (Prof. Pedro)</span></div>
           <div class="class-item"><span class="class-time">18:20-19:00</span><span class="class-name">Gestiona (Prof. Pedro)</span></div>
         </div>
-
         <div id="day-miercoles" class="schedule-day-content">
           <div class="class-item"><span class="class-time">13:40-14:20</span><span class="class-name">Economía Pública</span></div>
           <div class="class-item"><span class="class-time">14:20-15:00</span><span class="class-name">Conciencia Histórica</span></div>
@@ -252,7 +249,6 @@
           <div class="class-item"><span class="class-time">17:40-18:20</span><span class="class-name">Diseña (Prof. Pedro)</span></div>
           <div class="class-item"><span class="class-time">18:20-19:00</span><span class="class-name">Diseña (Prof. Pedro)</span></div>
         </div>
-
         <div id="day-jueves" class="schedule-day-content">
           <div class="class-item"><span class="class-time">13:40-14:20</span><span class="class-name">Energía y Vida</span></div>
           <div class="class-item"><span class="class-time">14:20-15:00</span><span class="class-name">Economía Pública</span></div>
@@ -263,7 +259,6 @@
           <div class="class-item"><span class="class-time">17:40-18:20</span><span class="class-name">Gestiona (Prof. Pedro)</span></div>
           <div class="class-item"><span class="class-time">18:20-19:00</span><span class="class-name">Gestiona (Prof. Pedro)</span></div>
         </div>
-
         <div id="day-viernes" class="schedule-day-content">
           <div class="class-item"><span class="class-time">13:40-14:20</span><span class="class-name">Inglés V</span></div>
           <div class="class-item"><span class="class-time">14:20-15:00</span><span class="class-name">Socioemocional</span></div>
@@ -277,14 +272,13 @@
       </div>
     </section>
 
-    <!-- VISTA 3: PROGRESO -->
+    <!-- VISTA PROGRESO -->
     <section id="view-progress" class="view-section">
       <div class="content-scroll">
         <div>
           <h2 style="font-size: 1.4rem; font-weight: 800;">Tu progreso</h2>
           <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">Así va tu semana de estudio</p>
         </div>
-
         <div class="stats-grid">
           <div class="stat-box">
             <div style="font-size: 1.2rem; color: var(--warning);">🔥</div>
@@ -294,66 +288,43 @@
           <div class="stat-box">
             <div style="font-size: 1.2rem; color: var(--accent);">✔️</div>
             <div class="stat-value" id="stat-completed">0</div>
-            <div class="stat-label">Tareas completadas</div>
-          </div>
-          <div class="stat-box">
-            <div style="font-size: 1.2rem; color: var(--accent);">⏱️</div>
-            <div class="stat-value" id="stat-focus">0 <span style="font-size:1rem; font-weight:600;">min</span></div>
-            <div class="stat-label">Minutos de enfoque</div>
-          </div>
-          <div class="stat-box">
-            <div style="font-size: 1.2rem; color: var(--accent);">📋</div>
-            <div class="stat-value" id="stat-pending">0</div>
-            <div class="stat-label">Pendientes</div>
+            <div class="stat-label">Completadas</div>
           </div>
         </div>
-
         <div class="chart-card">
           <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600;">
             <span>Últimos 7 días</span>
             <span style="color: var(--text-secondary);">Tareas completadas</span>
           </div>
-          <div class="chart-bars">
-            <div class="chart-bar" style="height: 10%;"></div>
-            <div class="chart-bar" style="height: 20%;"></div>
-            <div class="chart-bar" style="height: 0%;"></div>
-            <div class="chart-bar" style="height: 40%;"></div>
-            <div class="chart-bar" style="height: 80%;"></div>
-            <div class="chart-bar" style="height: 50%;"></div>
-            <div class="chart-bar" style="height: 100%;"></div>
-          </div>
-          <div class="chart-labels">
-            <span>Vi</span><span>Sá</span><span>Do</span><span>Lu</span><span>Ma</span><span>Mi</span><span>Ju</span>
-          </div>
+          <div class="chart-bars" id="chartContainer"></div>
+          <div class="chart-labels" id="chartLabels"></div>
         </div>
       </div>
     </section>
 
     <button class="fab" id="openModalBtn">+</button>
-
     <nav class="bottom-nav">
       <button class="nav-item active" onclick="switchTab('view-tasks', this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
-        <span>Tareas</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg><span>Tareas</span>
       </button>
       <button class="nav-item" onclick="switchTab('view-schedule', this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-        <span>Horario</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg><span>Horario</span>
       </button>
       <button class="nav-item" onclick="switchTab('view-progress', this)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-        <span>Progreso</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg><span>Progreso</span>
       </button>
     </nav>
   </div>
-    <!-- MODALES -->
+
+  <!-- MODALES -->
   <div class="modal-overlay" id="taskModal">
     <div class="modal-sheet">
       <div class="modal-header">
-        <h2>Nueva Tarea</h2>
+        <h2 id="modalTitle">Nueva Tarea</h2>
         <button class="close-modal" id="closeModalBtn">&times;</button>
       </div>
       <form id="taskForm">
+        <input type="hidden" id="editTaskId" value="">
         <div class="form-group">
           <label>Título de la tarea</label>
           <input type="text" id="taskTitle" class="form-control" placeholder="Ej. Investigar sobre..." required />
@@ -361,14 +332,14 @@
         <div class="form-group">
           <label>Materia</label>
           <select id="taskSubject" class="form-control" required>
-            <option value="" disabled selected>Selecciona una materia...</option>
+            <option value="" disabled selected>Selecciona...</option>
             <option value="Inglés V">Inglés V</option>
-            <option value="Temas Selectos Mat">Temas Selectos de Matemáticas II</option>
+            <option value="Temas Selectos Mat">Temas Selectos Mat.</option>
             <option value="Conciencia Histórica">Conciencia Histórica</option>
             <option value="Energía y Vida">Energía y Vida</option>
             <option value="Economía Pública">Economía Pública</option>
-            <option value="Diseña (Prof. Pedro)">Diseña Bases de Datos</option>
-            <option value="Gestiona (Prof. Pedro)">Gestiona Bases de Datos</option>
+            <option value="Diseña (Prof. Pedro)">Diseña</option>
+            <option value="Gestiona (Prof. Pedro)">Gestiona</option>
             <option value="Socioemocional">Socioemocional</option>
             <option value="Tutorías">Tutorías</option>
           </select>
@@ -386,10 +357,18 @@
           <input type="datetime-local" id="taskDueDate" class="form-control" required />
         </div>
         <div class="form-group">
-          <label>Adjuntar imagen (opcional)</label>
-          <input type="file" id="taskImage" class="form-control" accept="image/*" />
+          <label>Notas / Descripción (Opcional)</label>
+          <textarea id="taskDescription" class="form-control" placeholder="Escribe apuntes de clase, lo que dijo el profe, etc."></textarea>
         </div>
-        <button type="submit" class="submit-btn">Guardar Tarea</button>
+        <div class="form-group">
+          <label>Subtareas (Una por línea. Opcional)</label>
+          <textarea id="taskSubtasks" class="form-control" style="height: 60px;" placeholder="Investigar&#10;Hacer diapositivas&#10;Imprimir"></textarea>
+        </div>
+        <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+          <input type="checkbox" id="taskIsExam" style="width: 20px; height: 20px; accent-color: var(--accent);">
+          <label for="taskIsExam" style="margin: 0; cursor: pointer;">¿Es un Examen o Proyecto Final? (Muestra cuenta regresiva)</label>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn">Guardar Tarea</button>
       </form>
     </div>
   </div>
@@ -402,8 +381,8 @@
       </div>
       <form id="aiForm">
         <div class="form-group">
-          <label>Texto para la IA (Editable)</label>
-          <textarea id="aiPrompt" class="form-control" placeholder="Escribe aquí..." required></textarea>
+          <label>Prompt para la IA (Editable)</label>
+          <textarea id="aiPrompt" class="form-control" style="height: 150px;" required></textarea>
           <button type="button" class="copy-btn" onclick="copyAiPrompt()">Copiar Texto</button>
         </div>
         <div class="form-group">
@@ -417,39 +396,29 @@
       </form>
     </div>
   </div>
-
-  <script>
-    // --- VARIABLES GLOBALES ---
-    let tasks = JSON.parse(localStorage.getItem('studytask_data')) || [
-      { id: 1, title: 'Modelo Entidad-Relación', subject: 'Diseña (Prof. Pedro)', priority: 'Alta', dueDate: getTodayISO(20, 0), completed: false, image: null }
-    ];
+    <script>
+    let tasks = JSON.parse(localStorage.getItem('studytask_data')) || [];
     let currentFilter = 'todas';
-    
-    // Elementos
+    let editTaskId = null;
+
+    // Elementos DOM
     const taskListEl = document.getElementById('taskList');
     const counterPillEl = document.getElementById('counterPill');
     const taskModal = document.getElementById('taskModal');
-    const openModalBtn = document.getElementById('openModalBtn');
-    const closeModalBtn = document.getElementById('closeModalBtn');
     const taskForm = document.getElementById('taskForm');
-    const filterBtns = document.querySelectorAll('.filter-btn');
     const aiModal = document.getElementById('aiModal');
-    const openAiModalBtn = document.getElementById('openAiModalBtn');
-    const closeAiModalBtn = document.getElementById('closeAiModalBtn');
-    const aiForm = document.getElementById('aiForm');
     const aiPromptInput = document.getElementById('aiPrompt');
 
-    // --- NAVEGACIÓN Y PESTAÑAS ---
+    // --- NAVEGACIÓN ---
     function switchTab(tabId, btn) {
       document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
       document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
       btn.classList.add('active');
-      
-      const fab = document.getElementById('openModalBtn');
-      fab.classList.toggle('hidden', tabId !== 'view-tasks');
+      document.getElementById('openModalBtn').classList.toggle('hidden', tabId !== 'view-tasks');
       
       if(tabId === 'view-progress') updateStats();
+      if(tabId === 'view-schedule') autoSelectDay();
     }
 
     function switchDay(dayId, btn) {
@@ -459,7 +428,16 @@
       btn.classList.add('active');
     }
 
-    // --- LÓGICA DE TAREAS ---
+    function autoSelectDay() {
+      const today = new Date().getDay(); // 0 Dom, 1 Lun... 6 Sab
+      const daysMap = {1: 'lunes', 2: 'martes', 3: 'miercoles', 4: 'jueves', 5: 'viernes'};
+      const todayName = daysMap[today];
+      if (todayName) {
+        document.getElementById('tab-' + todayName).click();
+      }
+    }
+
+    // --- TAREAS Y SUBTAREAS ---
     function saveTasks() { localStorage.setItem('studytask_data', JSON.stringify(tasks)); }
 
     function getTodayISO(hours = 23, minutes = 59) {
@@ -474,11 +452,10 @@
       return due.getDate() === today.getDate() && due.getMonth() === today.getMonth() && due.getFullYear() === today.getFullYear();
     }
 
-    function isDueTomorrow(dateString) {
+    function isOverdue(dateString) {
       if (!dateString) return false;
-      const due = new Date(dateString); const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      return due.getDate() === tomorrow.getDate() && due.getMonth() === tomorrow.getMonth() && due.getFullYear() === tomorrow.getFullYear();
+      const due = new Date(dateString); const now = new Date();
+      return due < now;
     }
 
     function renderTasks() {
@@ -492,16 +469,36 @@
       }).sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
 
       if (filtered.length === 0) {
-        taskListEl.innerHTML = `<div style="text-align:center; padding: 40px 0; color:var(--text-secondary);">No hay tareas aquí. ¡A darle al +!</div>`;
+        taskListEl.innerHTML = `<div style="text-align:center; padding: 40px 0; color:var(--text-secondary);">No hay tareas. ¡Dale al +!</div>`;
         return;
       }
 
       taskListEl.innerHTML = filtered.map(task => {
         const dueToday = isDueToday(task.dueDate) && !task.completed;
-        const dueTomorrow = isDueTomorrow(task.dueDate) && !task.completed && !dueToday;
+        const overdue = isOverdue(task.dueDate) && !task.completed;
         
+        // Cuenta regresiva para examen
+        let examBadge = '';
+        if (task.isExam && !task.completed) {
+          const diffTime = Math.abs(new Date(task.dueDate) - new Date());
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          examBadge = `<div class="exam-countdown">🚨 Faltan ${diffDays} días</div>`;
+        }
+
+        // Subtareas
+        let subtasksHTML = '';
+        if (task.subtasks && task.subtasks.length > 0) {
+          subtasksHTML = `<div class="subtask-list">` + 
+            task.subtasks.map((st, index) => `
+              <label class="subtask-item ${st.done ? 'completed' : ''}">
+                <input type="checkbox" ${st.done ? 'checked' : ''} onchange="toggleSubtask(${task.id}, ${index})">
+                ${st.text}
+              </label>
+            `).join('') + `</div>`;
+        }
+
         return `
-          <div class="task-card ${task.completed ? 'completed' : ''} ${dueToday ? 'due-today' : ''} ${dueTomorrow ? 'due-tomorrow' : ''}">
+          <div class="task-card ${task.completed ? 'completed' : ''} ${dueToday ? 'due-today' : ''} ${overdue ? 'overdue' : ''}">
             <button class="check-btn" onclick="toggleTask(${task.id})">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"></polyline></svg>
             </button>
@@ -510,14 +507,19 @@
                 <span class="badge badge-subject">${task.subject}</span>
                 <span class="badge badge-${task.priority.toLowerCase()}">${task.priority}</span>
                 ${dueToday ? '<span class="badge badge-today">¡HOY!</span>' : ''}
-                ${dueTomorrow ? '<span class="badge badge-tomorrow">¡MAÑANA!</span>' : ''}
+                ${overdue ? '<span class="badge badge-overdue">ATRASADA</span>' : ''}
               </div>
               <div class="task-title">${task.title}</div>
+              ${examBadge}
+              ${task.description ? `<div class="task-desc">${task.description}</div>` : ''}
               <div class="task-date">${new Date(task.dueDate).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</div>
-              ${task.image ? `<img src="${task.image}" class="task-image">` : ''}
-              <button class="pomo-btn" style="margin-top:10px; padding: 8px; font-size: 0.75rem; width: auto;" onclick="startFocus('${task.title}')">Estudiar 25m</button>
+              ${subtasksHTML}
+              <button class="pomo-btn" style="margin-top:10px; padding: 6px 10px; font-size: 0.75rem; width: auto;" onclick="startFocus('${task.title}')">⏱️ Estudiar</button>
             </div>
-            <button class="delete-btn" onclick="deleteTask(${task.id})">✖</button>
+            <div class="action-btns">
+              <button class="icon-btn edit" onclick="editTask(${task.id})">✏️</button>
+            <button class="icon-btn delete" onclick="deleteTask(${task.id})">🗑️</button>
+            </div>
           </div>
         `;
       }).join('');
@@ -525,31 +527,119 @@
 
     window.toggleTask = function(id) {
       const t = tasks.find(t => t.id === id);
-      if (t) { t.completed = !t.completed; saveTasks(); renderTasks(); }
+      if (t) { 
+        t.completed = !t.completed; 
+        if(t.completed) t.completedAt = new Date().toISOString();
+        saveTasks(); renderTasks(); 
+      }
     }
+
+    window.toggleSubtask = function(taskId, subIndex) {
+      const t = tasks.find(t => t.id === taskId);
+      if (t && t.subtasks[subIndex]) {
+        t.subtasks[subIndex].done = !t.subtasks[subIndex].done;
+        saveTasks(); renderTasks();
+      }
+    }
+
     window.deleteTask = function(id) { tasks = tasks.filter(t => t.id !== id); saveTasks(); renderTasks(); }
-    window.showToast = function(msg) {
-      const toast = document.getElementById('toast');
-      toast.textContent = msg; toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
+
+    // --- ABRIR MODAL (NUEVA / EDITAR) ---
+    document.getElementById('openModalBtn').addEventListener('click', () => {
+      editTaskId = null;
+      taskForm.reset();
+      document.getElementById('modalTitle').textContent = "Nueva Tarea";
+      document.getElementById('submitBtn').textContent = "Guardar Tarea";
+      document.getElementById('editTaskId').value = "";
+      document.getElementById('taskDueDate').value = getTodayISO(23, 59);
+      taskModal.classList.add('open');
+    });
+
+    window.editTask = function(id) {
+      const t = tasks.find(t => t.id === id);
+      if (!t) return;
+      editTaskId = id;
+      document.getElementById('editTaskId').value = id;
+      document.getElementById('modalTitle').textContent = "Editar Tarea";
+      document.getElementById('submitBtn').textContent = "Actualizar Tarea";
+      
+      document.getElementById('taskTitle').value = t.title;
+      document.getElementById('taskSubject').value = t.subject;
+      document.querySelector(`input[name="priority"][value="${t.priority}"]`).checked = true;
+      document.getElementById('taskDueDate').value = t.dueDate;
+      document.getElementById('taskDescription').value = t.description || "";
+      document.getElementById('taskIsExam').checked = t.isExam || false;
+      
+      // Reconstruir subtareas
+      if (t.subtasks && t.subtasks.length > 0) {
+        document.getElementById('taskSubtasks').value = t.subtasks.map(st => st.text).join('\n');
+      } else {
+        document.getElementById('taskSubtasks').value = "";
+      }
+      
+      taskModal.classList.add('open');
     }
 
-    // --- LÓGICA DEL TEMPORIZADOR POMODORO ---
-    let timerInterval;
-    let timeLeft = 25 * 60;
-    let isRunning = false;
-    let currentMode = 'focus';
+    document.getElementById('closeModalBtn').addEventListener('click', () => taskModal.classList.remove('open'));
 
+    // --- GUARDAR FORMULARIO ---
+    taskForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('editTaskId').value;
+      const title = document.getElementById('taskTitle').value;
+      const subject = document.getElementById('taskSubject').value;
+      const priority = document.querySelector('input[name="priority"]:checked').value;
+      const dueDate = document.getElementById('taskDueDate').value;
+      const description = document.getElementById('taskDescription').value;
+      const isExam = document.getElementById('taskIsExam').checked;
+      
+      const subtasksText = document.getElementById('taskSubtasks').value;
+      let subtasks = [];
+      if (subtasksText.trim() !== "") {
+        subtasks = subtasksText.split('\n').filter(line => line.trim() !== "").map(line => ({ text: line.trim(), done: false }));
+      }
+
+      if (id) {
+        // Editar existente
+        const t = tasks.find(t => t.id == id);
+        t.title = title; t.subject = subject; t.priority = priority;
+        t.dueDate = dueDate; t.description = description; t.isExam = isExam;
+        // Mantenemos el estado de las subtareas que ya existían
+        let newSubtasks = subtasks.map((st, i) => {
+           if (t.subtasks && t.subtasks[i] && t.subtasks[i].text === st.text) {
+             return { text: st.text, done: t.subtasks[i].done };
+           }
+           return st;
+        });
+        t.subtasks = newSubtasks;
+      } else {
+        // Nueva
+        tasks.push({ 
+          id: Date.now(), title, subject, priority, dueDate, description, isExam, 
+          completed: false, image: null, subtasks: subtasks 
+        });
+      }
+      
+      saveTasks(); renderTasks(); taskForm.reset(); taskModal.classList.remove('open');
+    });
+
+    // --- FILTROS ---
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.dataset.filter;
+        renderTasks();
+      });
+    });
+
+    // --- POMODORO ---
+    let timerInterval, timeLeft = 25 * 60, isRunning = false, currentMode = 'focus';
     function updateTimerDisplay() {
-      const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-      const s = (timeLeft % 60).toString().padStart(2, '0');
-      document.getElementById('pomoTime').textContent = `${m}:${s}`;
+      document.getElementById('pomoTime').textContent = `${Math.floor(timeLeft / 60).toString().padStart(2, '0')}:${(timeLeft % 60).toString().padStart(2, '0')}`;
     }
-
     window.setPomoMode = function(mode, minutes) {
-      currentMode = mode;
-      timeLeft = minutes * 60;
-      isRunning = false;
+      currentMode = mode; timeLeft = minutes * 60; isRunning = false;
       clearInterval(timerInterval);
       document.getElementById('pomoStartBtn').innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Iniciar`;
       document.getElementById('pomoLabel').textContent = mode === 'focus' ? 'ENFOQUE' : 'DESCANSO';
@@ -557,105 +647,117 @@
       event.target.classList.add('active');
       updateTimerDisplay();
     }
-
     window.startFocus = function(taskName) {
       document.getElementById('pomoTaskName').textContent = taskName;
-      switchTab('view-tasks', document.querySelector('.nav-item'));
+      switchTab('view-tasks', document.querySelectorAll('.nav-item')[0]);
       setPomoMode('focus', 25);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-
     window.toggleTimer = function() {
       const btn = document.getElementById('pomoStartBtn');
       if (isRunning) {
-        clearInterval(timerInterval);
-        btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Reanudar`;
+        clearInterval(timerInterval); btn.innerHTML = `▶ Reanudar`;
       } else {
         if (timeLeft === 0) timeLeft = currentMode === 'focus' ? 25 * 60 : 5 * 60;
         timerInterval = setInterval(() => {
-          timeLeft--;
-          updateTimerDisplay();
-          if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            isRunning = false;
-            btn.innerHTML = 'Iniciar';
-            showToast("¡Tiempo terminado!");
-            // Aquí podrías sumar minutos de enfoque al progreso
-          }
+          timeLeft--; updateTimerDisplay();
+          if (timeLeft <= 0) { clearInterval(timerInterval); isRunning = false; btn.innerHTML = 'Iniciar'; showToast("¡Tiempo terminado!"); }
         }, 1000);
-        btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg> Pausar`;
+        btn.innerHTML = `⏸ Pausar`;
       }
       isRunning = !isRunning;
     }
 
-    // --- ACTUALIZAR PROGRESO ---
+    // --- PROGRESO Y GRÁFICO ---
     function updateStats() {
       const completed = tasks.filter(t => t.completed).length;
-      const pending = tasks.filter(t => !t.completed).length;
       document.getElementById('stat-completed').textContent = completed;
-      document.getElementById('stat-pending').textContent = pending;
-      // Simulamos gráfica basándonos en las tareas
-      document.querySelectorAll('.chart-bar').forEach((bar, i) => {
-        bar.style.height = `${Math.random() * 100}%`; // Gráfica aleatoria visual por ahora
+      
+      // Generar gráfico de los últimos 7 días
+      const chartContainer = document.getElementById('chartContainer');
+      const chartLabels = document.getElementById('chartLabels');
+      chartContainer.innerHTML = ''; chartLabels.innerHTML = '';
+      
+      const daysLabel = ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'];
+      let maxTasksInDay = 1;
+
+      // Array para contar tareas por día
+      let last7Days = [];
+      for (let i = 6; i >= 0; i--) {
+        let d = new Date();
+        d.setDate(d.getDate() - i);
+        let dateStr = d.toDateString();
+        let count = tasks.filter(t => t.completed && t.completedAt && new Date(t.completedAt).toDateString() === dateStr).length;
+        last7Days.push({ dayLabel: daysLabel[d.getDay()], count: count });
+        if (count > maxTasksInDay) maxTasksInDay = count;
+      }
+
+      last7Days.forEach(day => {
+        let heightPercent = (day.count / maxTasksInDay) * 100;
+        if (day.count === 0) heightPercent = 0;
+        if (day.count > 0 && heightPercent < 10) heightPercent = 10; // Min height para que se vea
+
+        chartContainer.innerHTML += `
+          <div class="chart-bar-container">
+            <div class="chart-bar" style="height: ${heightPercent}%;"></div>
+          </div>
+        `;
+        chartLabels.innerHTML += `<span>${day.dayLabel}</span>`;
       });
     }
 
-    // --- EVENTOS (MODALES Y FORMULARIOS) ---
-    openModalBtn.addEventListener('click', () => taskModal.classList.add('open'));
-    closeModalBtn.addEventListener('click', () => taskModal.classList.remove('open'));
-    
-    taskForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const title = document.getElementById('taskTitle').value;
-      const subject = document.getElementById('taskSubject').value;
-      const priority = document.querySelector('input[name="priority"]:checked').value;
-      const dueDate = document.getElementById('taskDueDate').value;
-      const imageFile = document.getElementById('taskImage').files[0];
-
-      const saveNewTask = (imageBase64 = null) => {
-        tasks.push({ id: Date.now(), title, subject, priority, dueDate, completed: false, image: imageBase64 });
-        saveTasks(); renderTasks(); taskForm.reset(); taskModal.classList.remove('open');
-      };
-
-      if (imageFile) {
-        const reader = new FileReader();
-        reader.onload = (event) => saveNewTask(event.target.result);
-        reader.readAsDataURL(imageFile);
-      } else { saveNewTask(); }
-    });
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilter = btn.dataset.filter;
-        renderTasks();
-      });
-    });
-
-    // --- EVENTOS IA ---
-    openAiModalBtn.addEventListener('click', () => {
-      if (!navigator.onLine) { showToast("📡 Sin internet. Necesitas datos para la IA."); return; }
-      if (tasks.length > 0) {
-        const lastTask = tasks[tasks.length - 1];
-        const imgWarning = lastTask.image ? "\n\n[IMPORTANTE: Te adjuntaré una imagen con las instrucciones del profesor.]" : "";
-        aiPromptInput.value = `Ayúdame con la tarea: "${lastTask.title}" de la materia "${lastTask.subject}". Necesito una guía.${imgWarning}`;
-      } else { aiPromptInput.value = ""; }
+    // --- IA CON NOTAS ---
+    document.getElementById('openAiModalBtn').addEventListener('click', () => {
+      if (!navigator.onLine) { showToast("📡 Sin internet para la IA."); return; }
+      
+      let prompt = "";
+      const pendingTasks = tasks.filter(t => !t.completed).sort((a,b) => new Date(a.dueDate) - new Date(b.dueDate));
+      
+      if (pendingTasks.length > 0) {
+        const nextTask = pendingTasks[0];
+        prompt = `Hola IA. Tengo esta tarea de la materia "${nextTask.subject}":\n"${nextTask.title}".\n\n`;
+        
+        if (nextTask.description) {
+          prompt += `Aquí están mis notas originales de clase o instrucciones:\n"${nextTask.description}"\n\n`;
+        }
+        
+        if (nextTask.isExam) {
+          prompt += `¡Es un examen o proyecto final! Ayúdame a crear un plan de estudio intensivo. `;
+        } else {
+          prompt += `Ayúdame a entender exactamente qué tengo que hacer y dame un plan de acción paso a paso. `;
+        }
+        
+        if (nextTask.subtasks && nextTask.subtasks.length > 0) {
+          const pendingSteps = nextTask.subtasks.filter(st => !st.done).map(st => st.text).join(', ');
+          prompt += `\nLos pasos que ya tengo identificados son: ${pendingSteps}.`;
+        }
+      } else {
+        prompt = "No tengo tareas pendientes, ¿puedes darme un consejo para organizar mejor mi estudio?";
+      }
+      
+      aiPromptInput.value = prompt;
       aiModal.classList.add('open');
     });
 
-    closeAiModalBtn.addEventListener('click', () => aiModal.classList.remove('open'));
+    document.getElementById('closeAiModalBtn').addEventListener('click', () => aiModal.classList.remove('open'));
     window.copyAiPrompt = function() {
       navigator.clipboard.writeText(aiPromptInput.value).then(() => showToast("¡Texto copiado!")).catch(() => showToast("Error al copiar."));
     }
-    aiForm.addEventListener('submit', (e) => {
+    document.getElementById('aiForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const engine = document.querySelector('input[name="aiEngine"]:checked').value;
-      const url = engine === 'gemini' ? `https://gemini.google.com/app` : `https://chatgpt.com/`;
-      window.open(url, '_blank'); aiForm.reset(); aiModal.classList.remove('open');
+      window.open(engine === 'gemini' ? 'https://gemini.google.com/app' : 'https://chatgpt.com/', '_blank');
+      aiModal.classList.remove('open');
     });
 
-    renderTasks(); updateTimerDisplay();
+    window.showToast = function(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg; toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // INICIALIZAR
+    renderTasks(); updateTimerDisplay(); autoSelectDay();
   </script>
 </body>
 </html>
